@@ -50,9 +50,6 @@
     <ClInclude Include="ReadGeometry.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SplitCas.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="1.cas">
