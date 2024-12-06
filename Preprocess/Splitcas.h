@@ -5,4 +5,4 @@
 #include <string>
 #include <vector>
 #include <sstream>
-std::vector<std::string> SplitCas(std::ifstream& casfile);
+std::vector<std::string> splitCas(std::ifstream& casfile);
