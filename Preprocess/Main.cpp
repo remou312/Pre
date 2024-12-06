@@ -2,9 +2,8 @@
 int main()
 {
     std::ifstream casfile = openCasFile();   //功能在OpenFile.cpp中
-    std::vector<std::string> result = SplitCas(casfile);   //功能在SplitCas.cpp中
-
-    //Data data = ReadCase(casfile);   //功能在ReadFile.cpp中
+    std::vector<std::string> result = splitCas(casfile);   //功能在SplitCas.cpp中
+    //Data data = readCase(casfile);   //功能在ReadFile.cpp中
     //ReadGeometry(data);//读取几何信息，并进行处理，返回一些几何信息的数据结构
     //WriteMsh(); //将几何信息写入msh文件
     //ReadMsh(); //读取msh文件，并进行处理，返回一些数据结构

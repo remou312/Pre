@@ -87,8 +87,8 @@ Data ReadCase(std::ifstream& casfile) {
 */
 
 //使用栈结构将文件进行分块处理
-Data ReadCase(std::ifstream& casfile) {
-    std::vector<std::string> blocks = SplitCas(casfile);
+Data readCase(std::ifstream& casfile) {
+    std::vector<std::string> blocks = splitCas(casfile);
     Data data;
     //从blocks中解析信息
 

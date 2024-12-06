@@ -1,6 +1,6 @@
 #include "SplitCas.h"
 
-std::vector<std::string> SplitCas(std::ifstream& casfile) {
+std::vector<std::string> splitCas(std::ifstream& casfile) {
     std::vector<std::string> result;
     std::stack<int> parenthesisStack;
     std::ostringstream currentBlock;

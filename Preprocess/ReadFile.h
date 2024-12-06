@@ -2,4 +2,4 @@
 #include "ClassGroup.h"
 #include <regex>
 #include "SplitCas.h"
-Data ReadCase(std::ifstream& casfile);
+Data readCase(std::ifstream& casfile);
