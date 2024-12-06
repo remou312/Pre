@@ -30,6 +30,9 @@
     <ClCompile Include="ReadGeometry.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SplitCas.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ReadFile.h">
@@ -45,6 +48,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ReadGeometry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SplitCas.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

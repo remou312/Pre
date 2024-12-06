@@ -133,6 +133,7 @@
     <ClCompile Include="OpenFile.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ReadGeometry.cpp" />
+    <ClCompile Include="SplitCas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ReadFile.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="OpenFile.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="ReadGeometry.h" />
+    <ClInclude Include="SplitCas.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="1.cas" />

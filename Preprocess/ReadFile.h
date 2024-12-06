@@ -1,7 +1,5 @@
 #pragma once
 #include "ClassGroup.h"
-#include <iostream>
-#include <fstream>
-#include <string>
 #include <regex>
+#include "SplitCas.h"
 Data ReadCase(std::ifstream& casfile);
