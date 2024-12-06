@@ -85,30 +85,98 @@ Data ReadCase(std::ifstream& casfile) {
     return data;
 }
 */
-
-//使用栈结构将文件进行分块处理
 Data readCase(std::ifstream& casfile) {
     std::vector<std::string> blocks = splitCas(casfile);
     Data data;
     //从blocks中解析信息
+    for (int i = 0; i < blocks.size(); i++)
+    {
+        //检测维度
+        if (blocks[i].substr(0, 2) == "(2") {
+            data.dim = blocks[i][3] - '0';
+            cout << "Dimension: " << data.dim << endl;
+        }
+        //检测节点数
+        if (blocks[i].substr(0, 9) == "(10 (0 1 ") {
+            std::string subStr = blocks[i].substr(9); // 从第10个字符开始提取剩下的字符串
+            size_t pos = subStr.find(' '); // 查找第一个空格的位置
 
+            if (pos != std::string::npos) {
+                subStr = subStr.substr(0, pos); // 提取从开始到第一个空格的子字符串
+            }
+            cout << "NNode: " << subStr << endl;
+            data.num_points = stoi(subStr, nullptr, 16);
+            cout << "NNode: " << data.num_points << endl;
+        }
+        //检测面数
+        if (blocks[i].substr(0, 9) == "(13 (0 1 ") {
+            std::string subStr = blocks[i].substr(9);
+            size_t pos = subStr.find(' '); // 查找第一个空格的位置
 
+            if (pos != std::string::npos) {
+                subStr = subStr.substr(0, pos); // 提取从开始到第一个空格的子字符串
+            }
+            cout << "NFace: " << subStr << endl;
+            data.num_faces = stoi(subStr, nullptr, 16);
+            cout << "NFace: " << data.num_faces << endl;
+        }
+        //检测单元数
+        if (blocks[i].substr(0, 9) == "(12 (0 1 ") {
+            std::string subStr = blocks[i].substr(9);
+            size_t pos = subStr.find(' '); // 查找第一个空格的位置
 
+            if (pos != std::string::npos) {
+                subStr = subStr.substr(0, pos); // 提取从开始到第一个空格的子字符串
+            }
+            cout << "NCell: " << subStr << endl;
+            data.num_cells = stoi(subStr, nullptr, 16);
+            cout << "NCell: " << data.num_cells << endl;
+        }
+        //读取节点坐标
+        if (blocks[i].substr(0, 5) == "(10 (" && blocks[i].substr(5, 1) != "0") {
+            // 假设 blocks[i] 为整个数据块，可以按行分割
+            std::istringstream blockStream(blocks[i]);
+            std::string line;
+            // 先读取并忽略第一行
+            std::getline(blockStream, line);
+            // 然后读取剩下的内容
+            while (std::getline(blockStream, line)) {
+                // 确保读取的行不是最后一行
+                if (line != "))") {
+                    double x, y, z;
+                    std::istringstream lineStream(line);
+                    lineStream >> x >> y >> z;
+                    data.points.emplace_back(data.points.size() + 1, x, y, z);
+                }
+            }
+        }
+        //读取面信息
+        if (blocks[i].substr(0, 5) == "(13 (" && blocks[i].substr(5, 1) != "0") {
+            // 假设 blocks[i] 为整个数据块，可以按行分割
+            std::istringstream blockStream(blocks[i]);
+            std::string line;
+            // 先读取并忽略第一行
+            std::getline(blockStream, line);
+            // 然后读取剩下的内容
+            while (std::getline(blockStream, line)) {
+                // 确保读取的行不是最后一行
+                if (line != "))") {
+                    std::string hexNode1, hexNode2, hexNode3, hexCell1, hexCell2;
+                    std::istringstream lineStream(line);
+                    lineStream >> hexNode1 >> hexNode2 >> hexNode3 >> hexCell1 >> hexCell2;
 
+                    // 将十六进制字符串转换为整数
+                    int node1 = std::stoi(hexNode1, nullptr, 16);
+                    int node2 = std::stoi(hexNode2, nullptr, 16);
+                    int node3 = std::stoi(hexNode3, nullptr, 16);
+                    int cell1 = std::stoi(hexCell1, nullptr, 16);
+                    int cell2 = std::stoi(hexCell2, nullptr, 16);
+                    data.faces.emplace_back(data.faces.size() + 1, node1, node2, node3, cell1, cell2);
+                }
+            }
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     return data;
     }

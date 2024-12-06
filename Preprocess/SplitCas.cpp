@@ -1,47 +1,30 @@
 #include "SplitCas.h"
 
 std::vector<std::string> splitCas(std::ifstream& casfile) {
-    std::vector<std::string> result;
-    std::stack<int> parenthesisStack;
-    std::ostringstream currentBlock;
-    char ch;
+    std::vector<std::string> blocks;
+    std::string currentBlock;
+    int balance = 0;
 
-    // Read the file character by character
-    while (casfile.get(ch)) {
+    char ch;
+    while (casfile.get(ch)) {  // 从输入流中逐字符读取
+        currentBlock += ch; // 添加当前字符到当前块
+
         if (ch == '(') {
-            // Start of a new block or nested block
-            if (!parenthesisStack.empty()) {
-                // Append the '(' to the current block if it's not the outermost one
-                currentBlock << ch;
-            }
-            // Push the index of the start of the current block (or an empty one)
-            parenthesisStack.push(result.size());
-            // If the result vector is empty or the last block is empty, add a new empty block
-            if (result.empty() || result.back().empty()) {
-                result.push_back("");
-            }
+            balance++; // 增加层级
         }
         else if (ch == ')') {
-            // End of a block or nested block
-            int startIndex = parenthesisStack.top();
-            parenthesisStack.pop();
-            // Append the ')' to the current block
-            currentBlock << ch;
-            // If this ')' closes the outermost block, move the current block to result
-            if (parenthesisStack.empty()) {
-                result[startIndex] = currentBlock.str();
-                currentBlock.str(""); // Clear the stringstream's content
-                currentBlock.clear(); // Clear the stringstream's state
-            }
+            balance--; // 减少层级
         }
-        else {
-            // If it's not a parenthesis, just append to the current block
-            currentBlock << ch;
+
+        // 当我们关闭一个圆括号时，检查平衡状态
+        if (balance == 0) {
+            // 检查当前块是否只包含空格
+            if (!currentBlock.empty() && currentBlock.find_first_not_of(" \n\t") != std::string::npos && currentBlock.find("(0") != 0) {
+                blocks.push_back(currentBlock); // 存储当前块
+            }
+            currentBlock.clear(); // 清空当前块以供下次使用
         }
     }
-
-    // No need to remove empty strings here because we only add non-empty blocks to result
-    // when an outermost parenthesis is closed.
-    casfile.close();
-    return result;
+    casfile.close(); // 关闭输入流
+    return blocks;
 }
