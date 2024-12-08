@@ -93,8 +93,8 @@ casData readCase(std::ifstream& casfile) {
     {
         //检测维度
         if (blocks[i].substr(0, 2) == "(2") {
-            data.dim = blocks[i][3] - '0';
-            cout << "Dimension: " << data.dim << endl;
+            casdata.dim = blocks[i][3] - '0';
+            cout << "Dimension: " << casdata.dim << endl;
         }
         //检测节点数
         if (blocks[i].substr(0, 9) == "(10 (0 1 ") {
@@ -105,8 +105,8 @@ casData readCase(std::ifstream& casfile) {
                 subStr = subStr.substr(0, pos); // 提取从开始到第一个空格的子字符串
             }
             cout << "NNode: " << subStr << endl;
-            data.num_points = stoi(subStr, nullptr, 16);
-            cout << "NNode: " << data.num_points << endl;
+            casdata.num_points = stoi(subStr, nullptr, 16);
+            cout << "NNode: " << casdata.num_points << endl;
         }
         //检测面数
         if (blocks[i].substr(0, 9) == "(13 (0 1 ") {
@@ -117,8 +117,8 @@ casData readCase(std::ifstream& casfile) {
                 subStr = subStr.substr(0, pos); // 提取从开始到第一个空格的子字符串
             }
             cout << "NFace: " << subStr << endl;
-            data.num_faces = stoi(subStr, nullptr, 16);
-            cout << "NFace: " << data.num_faces << endl;
+            casdata.num_faces = stoi(subStr, nullptr, 16);
+            cout << "NFace: " << casdata.num_faces << endl;
         }
         //检测单元数
         if (blocks[i].substr(0, 9) == "(12 (0 1 ") {
@@ -129,8 +129,8 @@ casData readCase(std::ifstream& casfile) {
                 subStr = subStr.substr(0, pos); // 提取从开始到第一个空格的子字符串
             }
             cout << "NCell: " << subStr << endl;
-            data.num_cells = stoi(subStr, nullptr, 16);
-            cout << "NCell: " << data.num_cells << endl;
+            casdata.num_cells = stoi(subStr, nullptr, 16);
+            cout << "NCell: " << casdata.num_cells << endl;
         }
         //读取节点坐标
         if (blocks[i].substr(0, 5) == "(10 (" && blocks[i].substr(5, 1) != "0") {
@@ -146,7 +146,7 @@ casData readCase(std::ifstream& casfile) {
                     double x, y, z;
                     std::istringstream lineStream(line);
                     lineStream >> x >> y >> z;
-                    data.points.emplace_back(data.points.size() + 1, x, y, z);
+                    casdata.points.emplace_back(casdata.points.size() + 1, x, y, z);
 
                 }
             }
@@ -171,7 +171,7 @@ casData readCase(std::ifstream& casfile) {
                     int node3 = std::stoi(hexNode3, nullptr, 16);
                     int cell1 = std::stoi(hexCell1, nullptr, 16);
                     int cell2 = std::stoi(hexCell2, nullptr, 16);
-                    data.faces.emplace_back(data.faces.size() + 1, node1, node2, node3, cell1, cell2);
+                    casdata.faces.emplace_back(casdata.faces.size() + 1, node1, node2, node3, cell1, cell2);
                 }
             }
         }

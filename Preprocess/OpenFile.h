@@ -3,7 +3,8 @@
 #include <fstream>
 #include <string>
 #include <filesystem>
-extern std::string filename;
 namespace fs = std::filesystem;
+std::ifstream openFile(const std::string& extension);
 std::ifstream openCasFile();
-//std::ifstream openMshFile();
+std::ifstream openNeuFile();
+std::ifstream openMshFile();
