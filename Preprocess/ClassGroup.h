@@ -26,3 +26,6 @@ struct Cell_Tet {
     double volume;
     double centroid[3];
 };
+struct Geo {
+
+};

@@ -9,23 +9,23 @@ Data ReadCase(std::ifstream& casfile) {
     int& NCell = data.num_cells;
     std::vector<Point_3d>& nodes = data.points;
     int node_id = 0;
-    // ¶¨ÒåÎ¬¶ÈÕıÔò±í´ïÊ½
+    // å®šä¹‰ç»´åº¦æ­£åˆ™è¡¨è¾¾å¼
     std::regex read_dimension(R"(\(2\s+(\d+)\))");
-    // ¶¨Òå½ÚµãÊıÕıÔò±í´ïÊ½
+    // å®šä¹‰èŠ‚ç‚¹æ•°æ­£åˆ™è¡¨è¾¾å¼
     std::regex read_nnode(R"(\(10\s+\(0\s+1\s+([0-9A-Fa-f]+)\s+\d+\s+\d+\)\))");
-    //¶¨ÒåÃæÊıÕıÔò±í´ïÊ½
+    //å®šä¹‰é¢æ•°æ­£åˆ™è¡¨è¾¾å¼
     std::regex read_nface(R"(\(13\s*\(0\s+1\s+([0-9A-Fa-f]+)\s+\d+\)\))");
-    //¶¨Òåµ¥ÔªÊıÕıÔò±í´ïÊ½
+    //å®šä¹‰å•å…ƒæ•°æ­£åˆ™è¡¨è¾¾å¼
     std::regex read_ncell(R"(\(12\s*\(0\s+1\s+([0-9A-Fa-f]+)\s+\d+\)\))");
-    //¶¨Òå½ÚµãÄ£¿éÕıÔò±í´ïÊ½
-    std::regex nodeStartRegex(R"(\(10 \(.*\)\()");// Æ¥ÅäÒÔ"(10 ("¿ªÍ·£¬ºóÃæ¸ú×ÅÈÎÒâ×Ö·û£¬ÔÙÒÔ"("½áÎ²µÄ×Ö·û´®
+    //å®šä¹‰èŠ‚ç‚¹æ¨¡å—æ­£åˆ™è¡¨è¾¾å¼
+    std::regex nodeStartRegex(R"(\(10 \(.*\)\()");// åŒ¹é…ä»¥"(10 ("å¼€å¤´ï¼Œåé¢è·Ÿç€ä»»æ„å­—ç¬¦ï¼Œå†ä»¥"("ç»“å°¾çš„å­—ç¬¦ä¸²
     bool found_dimension = false;
     bool found_nnode = false;
     bool found_nface = false;
     bool found_ncell = false;
     bool parsingNodes = false;
     std::smatch match;
-    //Ñ­»·¶ÁÈ¡ÎÄ¼ş£¬»ñÈ¡Î¬¶È£¬½ÚµãÊı£¬ÃæÊı£¬µ¥ÔªÊıµÈĞÅÏ¢
+    //å¾ªç¯è¯»å–æ–‡ä»¶ï¼Œè·å–ç»´åº¦ï¼ŒèŠ‚ç‚¹æ•°ï¼Œé¢æ•°ï¼Œå•å…ƒæ•°ç­‰ä¿¡æ¯
     while (std::getline(casfile, line)) {
         if (std::regex_search(line, match, read_dimension)) {
             dimension = std::stoi(match[1]);
@@ -53,14 +53,14 @@ Data ReadCase(std::ifstream& casfile) {
         std::cout << "NFace: " << data.num_faces << std::endl;
         std::cout << "NCell: " << data.num_cells << std::endl;
     }
-    //Ñ­»·¶ÁÈ¡ÎÄ¼ş£¬»ñÈ¡½Úµã×ø±êĞÅÏ¢
+    //å¾ªç¯è¯»å–æ–‡ä»¶ï¼Œè·å–èŠ‚ç‚¹åæ ‡ä¿¡æ¯
     while (std::getline(casfile, line)) {
-        // ¼ì²éµ±Ç°ĞĞÊÇ·ñÊÇ½ÚµãÊı¾İ¿éµÄ¿ªÊ¼
+        // æ£€æŸ¥å½“å‰è¡Œæ˜¯å¦æ˜¯èŠ‚ç‚¹æ•°æ®å—çš„å¼€å§‹
         if (std::regex_search(line, match, nodeStartRegex)) {
             parsingNodes = true;
-            continue; // Ìø¹ıÕâÒ»ĞĞ£¬ÒòÎªËüÖ»ÊÇ½ÚµãÊı¾İ¿éµÄ¿ªÊ¼
+            continue; // è·³è¿‡è¿™ä¸€è¡Œï¼Œå› ä¸ºå®ƒåªæ˜¯èŠ‚ç‚¹æ•°æ®å—çš„å¼€å§‹
         }
-        // Èç¹ûÕıÔÚ½âÎö½Úµã£¬²¢ÇÒÓöµ½Êı¾İ¿éµÄ½áÊø£¬ÔòÍ£Ö¹
+        // å¦‚æœæ­£åœ¨è§£æèŠ‚ç‚¹ï¼Œå¹¶ä¸”é‡åˆ°æ•°æ®å—çš„ç»“æŸï¼Œåˆ™åœæ­¢
         if (parsingNodes&&line == "))") {
             parsingNodes = false;
             break;
@@ -76,10 +76,10 @@ Data ReadCase(std::ifstream& casfile) {
     {
         std::cout <<"Total " << nodes.size() << " nodes have been read" << std::endl;
     }
-    //Ñ­»·¶ÁÈ¡ÎÄ¼ş£¬»ñÈ¡ÃæĞÅÏ¢
+    //å¾ªç¯è¯»å–æ–‡ä»¶ï¼Œè·å–é¢ä¿¡æ¯
     while (std::getline(casfile, line)) 
     {
-        // Ìø¹ı
+        // è·³è¿‡
     }
     casfile.close();
     return data;
@@ -88,84 +88,84 @@ Data ReadCase(std::ifstream& casfile) {
 Data readCase(std::ifstream& casfile) {
     std::vector<std::string> blocks = splitCas(casfile);
     Data data;
-    //´ÓblocksÖĞ½âÎöĞÅÏ¢
+    //ä»blocksä¸­è§£æä¿¡æ¯
     for (int i = 0; i < blocks.size(); i++)
     {
-        //¼ì²âÎ¬¶È
+        //æ£€æµ‹ç»´åº¦
         if (blocks[i].substr(0, 2) == "(2") {
             data.dim = blocks[i][3] - '0';
             cout << "Dimension: " << data.dim << endl;
         }
-        //¼ì²â½ÚµãÊı
+        //æ£€æµ‹èŠ‚ç‚¹æ•°
         if (blocks[i].substr(0, 9) == "(10 (0 1 ") {
-            std::string subStr = blocks[i].substr(9); // ´ÓµÚ10¸ö×Ö·û¿ªÊ¼ÌáÈ¡Ê£ÏÂµÄ×Ö·û´®
-            size_t pos = subStr.find(' '); // ²éÕÒµÚÒ»¸ö¿Õ¸ñµÄÎ»ÖÃ
+            std::string subStr = blocks[i].substr(9); // ä»ç¬¬10ä¸ªå­—ç¬¦å¼€å§‹æå–å‰©ä¸‹çš„å­—ç¬¦ä¸²
+            size_t pos = subStr.find(' '); // æŸ¥æ‰¾ç¬¬ä¸€ä¸ªç©ºæ ¼çš„ä½ç½®
 
             if (pos != std::string::npos) {
-                subStr = subStr.substr(0, pos); // ÌáÈ¡´Ó¿ªÊ¼µ½µÚÒ»¸ö¿Õ¸ñµÄ×Ó×Ö·û´®
+                subStr = subStr.substr(0, pos); // æå–ä»å¼€å§‹åˆ°ç¬¬ä¸€ä¸ªç©ºæ ¼çš„å­å­—ç¬¦ä¸²
             }
             cout << "NNode: " << subStr << endl;
             data.num_points = stoi(subStr, nullptr, 16);
             cout << "NNode: " << data.num_points << endl;
         }
-        //¼ì²âÃæÊı
+        //æ£€æµ‹é¢æ•°
         if (blocks[i].substr(0, 9) == "(13 (0 1 ") {
             std::string subStr = blocks[i].substr(9);
-            size_t pos = subStr.find(' '); // ²éÕÒµÚÒ»¸ö¿Õ¸ñµÄÎ»ÖÃ
+            size_t pos = subStr.find(' '); // æŸ¥æ‰¾ç¬¬ä¸€ä¸ªç©ºæ ¼çš„ä½ç½®
 
             if (pos != std::string::npos) {
-                subStr = subStr.substr(0, pos); // ÌáÈ¡´Ó¿ªÊ¼µ½µÚÒ»¸ö¿Õ¸ñµÄ×Ó×Ö·û´®
+                subStr = subStr.substr(0, pos); // æå–ä»å¼€å§‹åˆ°ç¬¬ä¸€ä¸ªç©ºæ ¼çš„å­å­—ç¬¦ä¸²
             }
             cout << "NFace: " << subStr << endl;
             data.num_faces = stoi(subStr, nullptr, 16);
             cout << "NFace: " << data.num_faces << endl;
         }
-        //¼ì²âµ¥ÔªÊı
+        //æ£€æµ‹å•å…ƒæ•°
         if (blocks[i].substr(0, 9) == "(12 (0 1 ") {
             std::string subStr = blocks[i].substr(9);
-            size_t pos = subStr.find(' '); // ²éÕÒµÚÒ»¸ö¿Õ¸ñµÄÎ»ÖÃ
+            size_t pos = subStr.find(' '); // æŸ¥æ‰¾ç¬¬ä¸€ä¸ªç©ºæ ¼çš„ä½ç½®
 
             if (pos != std::string::npos) {
-                subStr = subStr.substr(0, pos); // ÌáÈ¡´Ó¿ªÊ¼µ½µÚÒ»¸ö¿Õ¸ñµÄ×Ó×Ö·û´®
+                subStr = subStr.substr(0, pos); // æå–ä»å¼€å§‹åˆ°ç¬¬ä¸€ä¸ªç©ºæ ¼çš„å­å­—ç¬¦ä¸²
             }
             cout << "NCell: " << subStr << endl;
             data.num_cells = stoi(subStr, nullptr, 16);
             cout << "NCell: " << data.num_cells << endl;
         }
-        //¶ÁÈ¡½Úµã×ø±ê
+        //è¯»å–èŠ‚ç‚¹åæ ‡
         if (blocks[i].substr(0, 5) == "(10 (" && blocks[i].substr(5, 1) != "0") {
-            // ¼ÙÉè blocks[i] ÎªÕû¸öÊı¾İ¿é£¬¿ÉÒÔ°´ĞĞ·Ö¸î
+            // å‡è®¾ blocks[i] ä¸ºæ•´ä¸ªæ•°æ®å—ï¼Œå¯ä»¥æŒ‰è¡Œåˆ†å‰²
             std::istringstream blockStream(blocks[i]);
             std::string line;
-            // ÏÈ¶ÁÈ¡²¢ºöÂÔµÚÒ»ĞĞ
+            // å…ˆè¯»å–å¹¶å¿½ç•¥ç¬¬ä¸€è¡Œ
             std::getline(blockStream, line);
-            // È»ºó¶ÁÈ¡Ê£ÏÂµÄÄÚÈİ
+            // ç„¶åè¯»å–å‰©ä¸‹çš„å†…å®¹
             while (std::getline(blockStream, line)) {
-                // È·±£¶ÁÈ¡µÄĞĞ²»ÊÇ×îºóÒ»ĞĞ
+                // ç¡®ä¿è¯»å–çš„è¡Œä¸æ˜¯æœ€åä¸€è¡Œ
                 if (line != "))") {
                     double x, y, z;
                     std::istringstream lineStream(line);
                     lineStream >> x >> y >> z;
                     data.points.emplace_back(data.points.size() + 1, x, y, z);
+
                 }
             }
         }
-        //¶ÁÈ¡ÃæĞÅÏ¢
+        //è¯»å–é¢ä¿¡æ¯
         if (blocks[i].substr(0, 5) == "(13 (" && blocks[i].substr(5, 1) != "0") {
-            // ¼ÙÉè blocks[i] ÎªÕû¸öÊı¾İ¿é£¬¿ÉÒÔ°´ĞĞ·Ö¸î
+            // å‡è®¾ blocks[i] ä¸ºæ•´ä¸ªæ•°æ®å—ï¼Œå¯ä»¥æŒ‰è¡Œåˆ†å‰²
             std::istringstream blockStream(blocks[i]);
             std::string line;
-            // ÏÈ¶ÁÈ¡²¢ºöÂÔµÚÒ»ĞĞ
+            // å…ˆè¯»å–å¹¶å¿½ç•¥ç¬¬ä¸€è¡Œ
             std::getline(blockStream, line);
-            // È»ºó¶ÁÈ¡Ê£ÏÂµÄÄÚÈİ
+            // ç„¶åè¯»å–å‰©ä¸‹çš„å†…å®¹
             while (std::getline(blockStream, line)) {
-                // È·±£¶ÁÈ¡µÄĞĞ²»ÊÇ×îºóÒ»ĞĞ
+                // ç¡®ä¿è¯»å–çš„è¡Œä¸æ˜¯æœ€åä¸€è¡Œ
                 if (line != "))") {
                     std::string hexNode1, hexNode2, hexNode3, hexCell1, hexCell2;
                     std::istringstream lineStream(line);
                     lineStream >> hexNode1 >> hexNode2 >> hexNode3 >> hexCell1 >> hexCell2;
-
-                    // ½«Ê®Áù½øÖÆ×Ö·û´®×ª»»ÎªÕûÊı
+                    // å°†åå…­è¿›åˆ¶å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•´æ•°
                     int node1 = std::stoi(hexNode1, nullptr, 16);
                     int node2 = std::stoi(hexNode2, nullptr, 16);
                     int node3 = std::stoi(hexNode3, nullptr, 16);
@@ -175,8 +175,6 @@ Data readCase(std::ifstream& casfile) {
                 }
             }
         }
-
     }
-
     return data;
     }
