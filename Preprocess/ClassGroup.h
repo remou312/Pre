@@ -26,6 +26,20 @@ struct Cell_Tet {
     double volume;
     double centroid[3];
 };
-struct Geo {
-
+struct neuData {
+    int dim;
+    int num_points;
+    int num_faces;
+    int num_cells;
+    std::vector<Point_3d> points;
+    std::vector<Cell_Tet> cells;
+};
+struct geoData {
+    int dim;
+    int num_points;
+    int num_faces;
+    int num_cells;
+    std::vector<Point_3d> points;
+    std::vector<Face_tri> faces;
+    std::vector<Cell_Tet> cells;
 };

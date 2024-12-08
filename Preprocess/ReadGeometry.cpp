@@ -1,5 +1,11 @@
 #include "ReadGeometry.h"
-Geo readGeometry(const Data& data)
+
+geoData casdata2geoData(const casData& casdata)
 {
-	return Geo();
+	return geoData();
+}
+
+geoData neudata2geoData(const neuData& neudata)
+{
+	return geoData();
 }
