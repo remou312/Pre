@@ -26,4 +26,12 @@ void WriteMsh(const geoData& data)
     // 打开文件
     std::ofstream ofs(filename, std::ios::out);
     // 读取geoData内容写入.msh文件
+
+
+
+
+
+
+    // 关闭文件
+    ofs.close();
 }
