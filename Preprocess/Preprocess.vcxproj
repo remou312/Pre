@@ -129,7 +129,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ReadFile.cpp" />
-    <ClCompile Include="ClassGroup.cpp" />
     <ClCompile Include="OpenFile.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ReadGeometry.cpp" />

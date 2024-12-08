@@ -18,9 +18,6 @@
     <ClCompile Include="ReadFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ClassGroup.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="OpenFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
