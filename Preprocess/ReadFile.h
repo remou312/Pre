@@ -3,5 +3,5 @@
 #include <regex>
 #include "SplitCas.h"
 using namespace std;
-casData readCase(std::ifstream& casfile);
+casData readCas(std::ifstream& casfile);
 neuData readNeu(std::ifstream& neufile);

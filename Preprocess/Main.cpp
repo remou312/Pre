@@ -6,17 +6,17 @@ int main()
     ////step1.打开文件
     //std::ifstream casfile = openCasFile();   //功能在OpenFile.cpp中实现
     ////step2.读取文件
-    //casData casdata = readCase(casfile);   //功能在ReadFile.cpp中实现
+    //casData casdata = readCas(casfile);   //功能在ReadFile.cpp中实现
     ////step3.处理数据 
-    //geoData geodata = casdata2geoData(casdata);//读取几何信息，并进行处理，返回一些几何信息的数据结构
+    //geoData geodata = casdata2geoData(casdata);  //功能在ReadGeometry.cpp中实现
 
     //使用neu文件
     //step1.打开文件
-    std::ifstream neufile = openNeuFile();
+    std::ifstream neufile = openNeuFile();   //功能在OpenFile.cpp中实现
     //step2.读取文件
-    neuData neudata = readNeu(neufile);
+    neuData neudata = readNeu(neufile);   //功能在ReadFile.cpp中实现
     //step3.处理数据
-    geoData geodata = neudata2geoData(neudata);
+    geoData geodata = neudata2geoData(neudata);  //功能在ReadGeometry.cpp中实现
 
     //step4.输出数据到.msh文件,dat文件
     WriteMsh(geodata); //将几何信息写入msh文件

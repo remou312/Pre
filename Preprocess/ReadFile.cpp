@@ -85,7 +85,7 @@ Data ReadCase(std::ifstream& casfile) {
     return data;
 }
 */
-casData readCase(std::ifstream& casfile) {
+casData readCas(std::ifstream& casfile) {
     std::vector<std::string> blocks = splitCas(casfile);
     casData casdata;
     //从blocks中解析信息
@@ -181,14 +181,60 @@ casData readCase(std::ifstream& casfile) {
 neuData readNeu(std::ifstream& neufile) {
     neuData neudata;
     std::string line;
-
-
-
-
-
-
-
-
+    for (int i = 0; i < 6; ++i) {
+        std::getline(neufile, line);
+    }
+    int Numnp, Nelem, NGrps, Nbsets, NDCFD, Ndfvl;
+    neufile >> Numnp >> Nelem >> NGrps >> Nbsets >> NDCFD >> Ndfvl; std::getline(neufile, line);
+    std::getline(neufile, line);
+    std::getline(neufile, line);
+    for (int i = 0; i < Numnp; ++i) {
+        int id;
+        double x, y, z;
+        neufile >> id >> x >> y >> z; std::getline(neufile, line);
+        neudata.points.emplace_back(id, x, y, z);
+    }
+    std::getline(neufile, line);
+    std::getline(neufile, line);
+    for (int i = 0; i < Nelem; ++i) {
+        Cell_Tet cell;
+        int id, type, NDP, n1, n2, n3, n4;
+        neufile >> id >> type >> NDP >> n1 >> n2 >> n3 >> n4; std::getline(neufile, line);
+        cell.id = id;
+        cell.Typeid = type;
+        cell.pointid1 = n1;
+        cell.pointid2 = n2;
+        cell.pointid3 = n3;
+        cell.pointid4 = n4;
+        neudata.cells.emplace_back(cell);
+    }
+    std::getline(neufile, line);
+    while (std::getline(neufile, line)) {
+        //打印每一行内容
+        if (line.substr(0, 12) == "ENDOFSECTION") {
+            break;
+        }
+    }
+    for (int i = 0; i < Nbsets; ++i) {
+        // 读取边界信息
+        std::getline(neufile, line);
+        std::string bsetName;
+        bnd bnd;
+        int type, Ncell, Value, Ibcode;
+        neufile >> bsetName >> type >> Ncell >> Value >> Ibcode; std::getline(neufile, line);
+        int id = bsetName[bsetName.length() - 1] - '0';
+        bnd.id = id;
+        bnd.Ncell = Ncell;
+        for (int j = 0; j < Ncell; ++j) {
+            int cellid, celltype, face2cellid;
+            neufile >> cellid >> celltype >> face2cellid; std::getline(neufile, line);
+            bnd.cellid.push_back(cellid);
+            bnd.celltype.push_back(celltype);
+            bnd.face2cellid.push_back(face2cellid);
+            neudata.bnds.emplace_back(bnd);
+        }
+        std::getline(neufile, line);
+    }
     neufile.close();
     return neudata;
 }
