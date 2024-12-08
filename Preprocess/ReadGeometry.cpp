@@ -2,10 +2,12 @@
 
 geoData casdata2geoData(const casData& casdata)
 {
-	return geoData();
+	geoData geodata;
+	return geodata;
 }
 
 geoData neudata2geoData(const neuData& neudata)
 {
-	return geoData();
+	geoData geodata;
+	return geodata;
 }

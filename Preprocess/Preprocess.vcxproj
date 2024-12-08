@@ -134,6 +134,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ReadGeometry.cpp" />
     <ClCompile Include="SplitCas.cpp" />
+    <ClCompile Include="WriteMsh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ReadFile.h" />
@@ -142,12 +143,16 @@
     <ClInclude Include="Main.h" />
     <ClInclude Include="ReadGeometry.h" />
     <ClInclude Include="SplitCas.h" />
+    <ClInclude Include="WriteMsh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="1.cas" />
     <None Include="cas文件说明.pdf" />
     <None Include="circolumn.cas" />
+    <None Include="circolumn3D2.neu" />
+    <None Include="dunzhui.neu" />
     <None Include="hybridmesh.cas" />
+    <None Include="tuoqiu.neu" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.md" />

@@ -5,5 +5,6 @@
 #include "OpenFile.h"
 #include "ReadFile.h"
 #include "SplitCas.h"
+#include "WriteMsh.h"
 #include "ReadGeometry.h"
 using namespace std;
