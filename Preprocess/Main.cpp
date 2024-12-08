@@ -9,8 +9,8 @@ int main()
             cout << blocks[i] << endl;
         }
     }//功能在SplitCas.cpp中,并在readCas内部调用*/
-    Data data = readCase(casfile);   //功能在ReadFile.cpp中
-    Geo geo = readGeometry(data);//读取几何信息，并进行处理，返回一些几何信息的数据结构
+    casData casdata = readCase(casfile);   //功能在ReadFile.cpp中
+    Geo geo = readGeometry(casdata);//读取几何信息，并进行处理，返回一些几何信息的数据结构
     //WriteMsh(); //将几何信息写入msh文件
     //ReadMsh(); //读取msh文件，并进行处理，返回一些数据结构
     //UseMetis(); //使用METIS对网格进行划分，并返回一些数据结构

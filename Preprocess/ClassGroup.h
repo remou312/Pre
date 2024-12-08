@@ -9,7 +9,7 @@ struct Face_tri {
     int pointid1, pointid2, pointid3;
     int cellid1, cellid2;
 };
-struct Data {
+struct casData {
     int dim;
     int num_points;
     int num_faces;

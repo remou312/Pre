@@ -85,9 +85,9 @@ Data ReadCase(std::ifstream& casfile) {
     return data;
 }
 */
-Data readCase(std::ifstream& casfile) {
+casData readCase(std::ifstream& casfile) {
     std::vector<std::string> blocks = splitCas(casfile);
-    Data data;
+    casData data;
     //从blocks中解析信息
     for (int i = 0; i < blocks.size(); i++)
     {
