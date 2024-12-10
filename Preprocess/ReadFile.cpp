@@ -143,11 +143,11 @@ casData readCas(std::ifstream& casfile) {
             while (std::getline(blockStream, line)) {
                 // 确保读取的行不是最后一行
                 if (line != "))") {
-                    double x, y, z;
+                    Point_3d point;
                     std::istringstream lineStream(line);
-                    lineStream >> x >> y >> z;
-                    casdata.points.emplace_back(casdata.points.size() + 1, x, y, z);
-
+                    lineStream >> point.x >> point.y >> point.z;
+                    point.id = casdata.points.size() + 1;
+                    casdata.points.emplace_back(point);
                 }
             }
         }
@@ -162,16 +162,18 @@ casData readCas(std::ifstream& casfile) {
             while (std::getline(blockStream, line)) {
                 // 确保读取的行不是最后一行
                 if (line != "))") {
+                    Face_tri face;
                     std::string hexNode1, hexNode2, hexNode3, hexCell1, hexCell2;
                     std::istringstream lineStream(line);
                     lineStream >> hexNode1 >> hexNode2 >> hexNode3 >> hexCell1 >> hexCell2;
                     // 将十六进制字符串转换为整数
-                    int node1 = std::stoi(hexNode1, nullptr, 16);
-                    int node2 = std::stoi(hexNode2, nullptr, 16);
-                    int node3 = std::stoi(hexNode3, nullptr, 16);
-                    int cell1 = std::stoi(hexCell1, nullptr, 16);
-                    int cell2 = std::stoi(hexCell2, nullptr, 16);
-                    casdata.faces.emplace_back(casdata.faces.size() + 1, node1, node2, node3, cell1, cell2);
+                    face.pointid1 = std::stoi(hexNode1, nullptr, 16);
+                    face.pointid2 = std::stoi(hexNode2, nullptr, 16);
+                    face.pointid3 = std::stoi(hexNode3, nullptr, 16);
+                    face.cellid1 = std::stoi(hexCell1, nullptr, 16);
+                    face.cellid2 = std::stoi(hexCell2, nullptr, 16);
+                    face.id = casdata.faces.size() + 1;
+                    casdata.faces.emplace_back(face);
                 }
             }
         }
@@ -186,6 +188,9 @@ neuData readNeu(std::ifstream& neufile) {
     }
     int Numnp, Nelem, NGrps, Nbsets, NDCFD, Ndfvl;
     neufile >> Numnp >> Nelem >> NGrps >> Nbsets >> NDCFD >> Ndfvl; std::getline(neufile, line);
+    neudata.dim = NDCFD;
+    neudata.num_cells = Nelem;
+    neudata.num_points = Numnp;
     std::getline(neufile, line);
     std::getline(neufile, line);
     for (int i = 0; i < Numnp; ++i) {
@@ -196,21 +201,23 @@ neuData readNeu(std::ifstream& neufile) {
     }
     std::getline(neufile, line);
     std::getline(neufile, line);
+    Cell_Tet cell;
     for (int i = 0; i < Nelem; ++i) {
-        Cell_Tet cell;
+        int ilabel = 1;
         int id, type, NDP, n1, n2, n3, n4;
         neufile >> id >> type >> NDP >> n1 >> n2 >> n3 >> n4; std::getline(neufile, line);
-        cell.id = id;
-        cell.Typeid = type;
-        cell.pointid1 = n1;
-        cell.pointid2 = n2;
-        cell.pointid3 = n3;
-        cell.pointid4 = n4;
-        neudata.cells.emplace_back(cell);
+        if (type == 6) {
+            cell.id = id;
+            cell.Typeid = ilabel;
+            cell.pointid1 = n1;
+            cell.pointid2 = n2;
+            cell.pointid3 = n3;
+            cell.pointid4 = n4;
+            neudata.cells.emplace_back(cell);
+        }
     }
     std::getline(neufile, line);
     while (std::getline(neufile, line)) {
-        //打印每一行内容
         if (line.substr(0, 12) == "ENDOFSECTION") {
             break;
         }

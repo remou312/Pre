@@ -17,7 +17,10 @@ int main()
     neuData neudata = readNeu(neufile);   //功能在ReadFile.cpp中实现
     //step3.处理数据
     geoData geodata = neudata2geoData(neudata);  //功能在ReadGeometry.cpp中实现
-
+    //
+    // 
+    // 
+    // 
     //step4.输出数据到.msh文件,dat文件
     WriteMsh(geodata); //将几何信息写入msh文件
     //WriteDat(geodata); //将几何信息写入dat文件,用于可视化
