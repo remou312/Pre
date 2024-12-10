@@ -3,12 +3,15 @@
 struct Point_3d {
     int id;
     double x, y, z;
-    double vector[3]={x,y,z};
+    std::vector<double>coords={x,y,z};
     std::vector<int>cellid;
     std::vector<int>faceid;
 };
 struct Face_tri {
     int id;
+    double area;
+    std::vector<double>centroid={0,0,0};
+    std::vector<double>normal={0,0,0};
     int pointid1, pointid2, pointid3;
     int cellid1, cellid2;
     std::vector<int>cellid={pointid1,pointid2,pointid3};
@@ -21,7 +24,7 @@ struct Cell_Tet {
     int pointid1, pointid2, pointid3, pointid4;
     std::vector<int> pointid={pointid1,pointid2,pointid3,pointid4};
     int faceid1, faceid2, faceid3, faceid4;
-    std::vector<int> faceid={faceid1,faceid2,faceid3,faceid4};
+    std::vector<int> faceid;
     double volume;
     double centroid[3];
 };
