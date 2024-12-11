@@ -128,7 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="functions.cpp" />
+    <ClCompile Include="Functions.cpp" />
     <ClCompile Include="ReadFile.cpp" />
     <ClCompile Include="OpenFile.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -138,7 +138,7 @@
     <ClCompile Include="WriteFile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="functions.h" />
+    <ClInclude Include="Functions.h" />
     <ClInclude Include="ReadFile.h" />
     <ClInclude Include="ClassGroup.h" />
     <ClInclude Include="OpenFile.h" />

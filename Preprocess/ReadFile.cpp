@@ -226,7 +226,7 @@ neuData readNeu(std::ifstream& neufile) {
         // 读取边界信息
         std::getline(neufile, line);
         std::string bsetName;
-        bnd bnd;
+        Bnd bnd;
         int type, Ncell, Value, Ibcode;
         neufile >> bsetName >> type >> Ncell >> Value >> Ibcode; std::getline(neufile, line);
         int id = bsetName[bsetName.length() - 1] - '0';

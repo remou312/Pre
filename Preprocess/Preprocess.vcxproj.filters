@@ -33,7 +33,7 @@
     <ClCompile Include="WriteFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="functions.cpp">
+    <ClCompile Include="Functions.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="UseMetis.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="WriteFile.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="functions.h">
+    <ClInclude Include="Functions.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="UseMetis.h">

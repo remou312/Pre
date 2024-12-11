@@ -23,7 +23,7 @@ struct Cell_Tet {
     int faceid[4];
     double centroid[3];
 };
-struct bnd {
+struct Bnd {
     int id;
     int Ncell;
     std::vector<int> cellid;
