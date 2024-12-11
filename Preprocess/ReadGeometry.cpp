@@ -161,16 +161,42 @@ geoData neuData2geoData(const neuData& neudata)
 				faces[i].centroid[2]-geodata.cells[ip-1].centroid[2]};
 			double b[3] ={faces[i].normal[0],faces[i].normal[1],faces[i].normal[2]};
 			normalise(a);normalise(b);
-			double dotp = inner_product(a, b, 3);
-
-
+			double dotp = dot_product(a,b);
+			dotp = min(dotp,1.0);
+			dotp = max(dotp,-1.0);
+			double angle = acos(dotp)*180.0/3.14159265358979323846;
+			if (angle > 90.0 && angle < 270.0) {
+				faces[i].normal[0] = -faces[i].normal[0];
+				faces[i].normal[1] = -faces[i].normal[1];
+				faces[i].normal[2] = -faces[i].normal[2];
 			}
 		}
-		//方向
-	}	
+	}
 	//3.5将临时面放入geodata中（面的边界属性还未处理）
-
+	int icnt = 0;
+	for (int i = 0; i < faces.size(); i++) {
+		if (faces[i].cellid[0] > 0) {
+			geodata.faces.push_back(faces[i]);
+			geodata.faces[icnt].bndid = 0;
+			geodata.faces[icnt].lambda = -1.0;
+			icnt++;
+		}
+	}
+	//3.6将face加入到cell中去
+	for (int i = 0; i < geodata.faces.size(); i++) {
+		geodata.cells[geodata.faces[i].cellid[0] -1].faceid.emplace_back(i+1);
+		if (geodata.faces[i].cellid[1] > 0) geodata.cells[geodata.faces[i].cellid[1] -1].faceid.emplace_back(i+1);
+	}
 	//4.处理边界信息
+	//4.1从neudata中获取边界信息（cellbnd的index，节点id，边界号rid）
+
+
+
+
+
+
+
+
 	return geodata;
 }
 

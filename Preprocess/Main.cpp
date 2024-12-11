@@ -18,8 +18,8 @@ int main()
     //step3.处理数据
     geoData geodata = neuData2geoData(neudata);  //功能在ReadGeometry.cpp中实现
     //step4.输出数据到.msh文件,dat文件（可选）
-    writeMsh(geodata); //将几何信息写入msh文件，用于检查geodata的正确性
-    writeDat(geodata); //将几何信息写入dat文件,用于可视化
+    //writeMsh(geodata); //将几何信息写入msh文件，用于检查geodata的正确性
+    //writeDat(geodata); //将几何信息写入dat文件,用于可视化
     //step5.网格读取
     gridData griddata = geoData2gridData(geodata);
     //step6.网格划分

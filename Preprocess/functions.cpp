@@ -26,3 +26,9 @@ void normalise(double a[3]) {
     a[1] *= rlength;
     a[2] *= rlength;
 }
+double dot_product(const double arr1[3], const double arr2[3]) {
+
+    double result = 0.0;
+    for (size_t i = 0; i <3; ++i) result += arr1[i] * arr2[i];
+    return result;
+}

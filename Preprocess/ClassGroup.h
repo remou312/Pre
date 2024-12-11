@@ -14,13 +14,15 @@ struct Face_tri {
     int cellid[2];
     int pointid[3];
     int sides[2];
+    int bndid;
+    double lambda;
 };
 struct Cell_Tet {
     int id;
     double volume;
     int Typeid;
     int pointid[4];
-    int faceid[4];
+    std::vector<int>faceid;
     double centroid[3];
 };
 struct Bnd {
@@ -29,6 +31,14 @@ struct Bnd {
     std::vector<int> cellid;
     std::vector<int> celltype;
     std::vector<int> face2cellid;
+};
+struct cellBnd {
+    int id;
+    int cellid;
+    int faceid;
+};
+struct faceBnd {
+    int id;
 };
 struct casData {
     int dim;
@@ -44,7 +54,7 @@ struct neuData {
     int num_cells;
     std::vector<Point_3d> points;
     std::vector<Cell_Tet> cells;
-    std::vector<bnd> bnds;
+    std::vector<Bnd> bnds;
 };
 struct geoData {
     double scale=1.0;
@@ -54,6 +64,7 @@ struct geoData {
     std::vector<Point_3d> points;
     std::vector<Face_tri> faces;
     std::vector<Cell_Tet> cells;
+    std::vector<faceBnd>facebnds;
 };
 struct mshData {
     int num_cells;
