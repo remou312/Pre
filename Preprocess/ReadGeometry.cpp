@@ -188,7 +188,12 @@ geoData neuData2geoData(const neuData& neudata)
 		if (geodata.faces[i].cellid[1] > 0) geodata.cells[geodata.faces[i].cellid[1] -1].faceid.emplace_back(i+1);
 	}
 	//4.处理边界信息
-	//4.1从neudata中获取边界信息（cellbnd的index，节点id，边界号rid）
+	//4.1从neudata中获取边界信息
+	std::vector<cellBnd> bnds;
+	for (int i = 0; i < neudata.bnds.size(); i++) {
+		for (int j = 0; j < neudata.bnds[i].cellid.size(); j++) {
+			cellBnd bnd;
+			bnd.cellid = neudata.bnds[i].cellid[j];
 
 
 
