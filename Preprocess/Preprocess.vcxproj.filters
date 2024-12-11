@@ -30,10 +30,13 @@
     <ClCompile Include="SplitCas.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="WriteMsh.cpp">
+    <ClCompile Include="WriteFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="functions.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UseMetis.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,10 +59,13 @@
     <ClInclude Include="SplitCas.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="WriteMsh.h">
+    <ClInclude Include="WriteFile.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="functions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UseMetis.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -55,3 +55,13 @@ struct geoData {
     std::vector<Face_tri> faces;
     std::vector<Cell_Tet> cells;
 };
+struct mshData {
+    int num_cells;
+};
+struct gridData {
+    int dim;
+    int num_points;
+};
+struct datData {
+    int dim;
+};

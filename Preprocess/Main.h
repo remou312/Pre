@@ -5,6 +5,7 @@
 #include "OpenFile.h"
 #include "ReadFile.h"
 #include "SplitCas.h"
-#include "WriteMsh.h"
+#include "WriteFile.h"
 #include "ReadGeometry.h"
+#include "UseMetis.h"
 using namespace std;

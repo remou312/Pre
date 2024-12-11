@@ -1,12 +1,12 @@
 #include "ReadGeometry.h"
 #include <algorithm>
-geoData casdata2geoData(const casData& casdata)
+geoData casData2geoData(const casData& casdata)
 {
 	geoData geodata;
 	return geodata;
 }
 
-geoData neudata2geoData(const neuData& neudata)
+geoData neuData2geoData(const neuData& neudata)
 {
 	geoData geodata;
 	//1.先输入比例
@@ -160,4 +160,9 @@ geoData neudata2geoData(const neuData& neudata)
 
 	//4.处理边界信息
 	return geodata;
+}
+
+gridData geoData2gridData(const geoData& geodata)
+{
+	return gridData();
 }

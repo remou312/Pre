@@ -134,7 +134,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ReadGeometry.cpp" />
     <ClCompile Include="SplitCas.cpp" />
-    <ClCompile Include="WriteMsh.cpp" />
+    <ClCompile Include="UseMetis.cpp" />
+    <ClCompile Include="WriteFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="functions.h" />
@@ -144,7 +145,8 @@
     <ClInclude Include="Main.h" />
     <ClInclude Include="ReadGeometry.h" />
     <ClInclude Include="SplitCas.h" />
-    <ClInclude Include="WriteMsh.h" />
+    <ClInclude Include="UseMetis.h" />
+    <ClInclude Include="WriteFile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="1.cas" />

@@ -245,3 +245,8 @@ neuData readNeu(std::ifstream& neufile) {
     neufile.close();
     return neudata;
 }
+
+mshData readMsh(std::ifstream& mshfile)
+{
+    return mshData();
+}
