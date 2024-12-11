@@ -172,6 +172,7 @@ geoData neuData2geoData(const neuData& neudata)
 			}
 		}
 	}
+
 	//3.5将临时面放入geodata中（面的边界属性还未处理）
 	int icnt = 0;
 	for (int i = 0; i < faces.size(); i++) {
@@ -188,12 +189,31 @@ geoData neuData2geoData(const neuData& neudata)
 		if (geodata.faces[i].cellid[1] > 0) geodata.cells[geodata.faces[i].cellid[1] -1].faceid.emplace_back(i+1);
 	}
 	//4.处理边界信息
-	//4.1从neudata中获取边界信息
-	std::vector<cellBnd> bnds;
-	for (int i = 0; i < neudata.bnds.size(); i++) {
-		for (int j = 0; j < neudata.bnds[i].cellid.size(); j++) {
-			cellBnd bnd;
-			bnd.cellid = neudata.bnds[i].cellid[j];
+	//4.1从neudata中获取边界信息，将其放入cellbnds中，属性有cellid,points,rid
+	std::vector<cellBnd> cellbnds;
+	for (int i = 0; i < neudata.regions.size(); i++) {
+		for (int j = 0; j < neudata.regions[i].cellid.size(); j++) {
+			cellBnd cellbnd;
+			cellbnd.cellid = neudata.regions[i].cellid[j];
+			cellbnd.points[0] = neudata.cells[bnd.cellid - 1].pointid[0];
+			cellbnd.points[1] = neudata.cells[bnd.cellid - 1].pointid[1];
+			cellbnd.points[2] = neudata.cells[bnd.cellid - 1].pointid[2];
+			cellbnd.points[3] = neudata.cells[bnd.cellid - 1].pointid[3];
+			cellbnd.rid = neudata.regions[i].rid;
+			cellbnds.push_back(cellbnd);
+		}
+	}
+	//4.2将cellbnds放入geodata中，并添加一些额外属性。geodata需要facebnd属性，具体来说，需要重编id，faceid，vertexid，rid，distance
+	//4.2.1从geodata.faces中获取总边界面数，面的第二个cell编号为0，则为边界面
+	for(int i=0;i<geodata.faces.size();i++){
+		if(geodata.faces[i].cellid[1]==0){
+			int i1 = geodata.faces[i].pointid[0];
+			int i2 = geodata.faces[i].pointid[1];
+			int i3 = geodata.faces[i].pointid[2];
+			int i4 = geodata.faces[i].pointid[3];
+			int icnk = 0;
+
+
 
 
 

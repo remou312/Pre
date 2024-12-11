@@ -140,20 +140,20 @@ neuData readNeu(std::ifstream& neufile) {
         // 读取边界信息
         std::getline(neufile, line);
         std::string bsetName;
-        Bnd bnd;
+        Region reg;
         int type, Ncell, Value, Ibcode;
         neufile >> bsetName >> type >> Ncell >> Value >> Ibcode; std::getline(neufile, line);
         int id = bsetName[bsetName.length() - 1] - '0';
-        bnd.id = id;
-        bnd.Ncell = Ncell;
+        reg.rid = id;
+        reg.Ncell = Ncell;
         for (int j = 0; j < Ncell; ++j) {
             int cellid, celltype, face2cellid;
             neufile >> cellid >> celltype >> face2cellid; std::getline(neufile, line);
-            bnd.cellid.push_back(cellid);
-            bnd.celltype.push_back(celltype);
-            bnd.face2cellid.push_back(face2cellid);   
+            reg.cellid.push_back(cellid);
+            reg.celltype.push_back(celltype);
+            reg.face2cellid.push_back(face2cellid);   
         }
-        neudata.bnds.emplace_back(bnd);
+        neudata.regions.emplace_back(reg);
         std::getline(neufile, line);
     }
     neufile.close();

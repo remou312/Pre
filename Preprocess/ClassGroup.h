@@ -25,9 +25,9 @@ struct Cell_Tet {
     std::vector<int>faceid;
     double centroid[3];
 };
-struct Bnd {
+struct Region {
     //这是region形式的边界，包含有多个cell，对于每个cell，face2cellid记录了cell四个面的哪个面是边界面
-    int id;
+    int rid;//这是对字符串处理得到的id，用于区分不同的边界，不一定从1开始如bc2，bc3等
     int Ncell;
     std::vector<int> cellid;
     std::vector<int> celltype;
@@ -46,6 +46,8 @@ struct faceBnd {
     int id;
     int rid;
     int faceid;
+    double distance;
+    int pointid[3]
 };
 struct casData {
     int dim;
@@ -61,7 +63,7 @@ struct neuData {
     int num_cells;
     std::vector<Point_3d> points;
     std::vector<Cell_Tet> cells;
-    std::vector<Bnd> bnds;
+    std::vector<Region> regions;
 };
 struct geoData {
     double scale=1.0;
@@ -72,7 +74,6 @@ struct geoData {
     std::vector<Face_tri> faces;
     std::vector<Cell_Tet> cells;
     std::vector<faceBnd>facebnds;
-    std::vector<cellBnd>cellbnds;
 };
 struct mshData {
     double scale = 1.0;
