@@ -18,3 +18,11 @@ double Volume(const Point_3d& p1, const Point_3d& p2, const Point_3d& p3, const 
     // 返回四面体体积
     return std::abs(dot_product) / 6.0;
 }
+
+void normalise(double a[3]) {
+    double rlength = 1.0 / std::sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+
+    a[0] *= rlength;
+    a[1] *= rlength;
+    a[2] *= rlength;
+}

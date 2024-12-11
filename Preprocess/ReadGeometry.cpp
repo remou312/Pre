@@ -154,6 +154,18 @@ geoData neuData2geoData(const neuData& neudata)
 		faces[i].centroid[2] = (coords1[2] + coords2[2] + coords3[2]) / 3.0;
 	}
 	for (int i = 0; i < faces.size(); i++) {
+		int ip = faces[i].cellid[0];
+		if (ip > 0) {
+			double a[3] ={faces[i].centroid[0]-geodata.cells[ip-1].centroid[0],
+				faces[i].centroid[1]-geodata.cells[ip-1].centroid[1],
+				faces[i].centroid[2]-geodata.cells[ip-1].centroid[2]};
+			double b[3] ={faces[i].normal[0],faces[i].normal[1],faces[i].normal[2]};
+			normalise(a);normalise(b);
+			double dotp = inner_product(a, b, 3);
+
+
+			}
+		}
 		//方向
 	}	
 	//3.5将临时面放入geodata中（面的边界属性还未处理）
