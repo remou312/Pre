@@ -2,27 +2,19 @@
 
 double Volume(const Point_3d& p1, const Point_3d& p2, const Point_3d& p3, const Point_3d& p4)
 {
-    // ¼ÆËãÏòÁ¿
-    double x1 = p2.x - p1.x;
-    double y1 = p2.y - p1.y;
-    double z1 = p2.z - p1.z;
+    // è®¡ç®—å‘é‡
+    double vector1[3] = { p2.coords[0] - p1.coords[0], p2.coords[1] - p1.coords[1], p2.coords[2] - p1.coords[2] };
+    double vector2[3] = { p3.coords[0] - p1.coords[0], p3.coords[1] - p1.coords[1], p3.coords[2] - p1.coords[2] };
+    double vector3[3] = { p4.coords[0] - p1.coords[0], p4.coords[1] - p1.coords[1], p4.coords[2] - p1.coords[2] };
 
-    double x2 = p3.x - p1.x;
-    double y2 = p3.y - p1.y;
-    double z2 = p3.z - p1.z;
+    // è®¡ç®—å‰ç§¯
+    double cx = vector2[1] * vector3[2] - vector2[2] * vector3[1];
+    double cy = vector2[2] * vector3[0] - vector2[0] * vector3[2];
+    double cz = vector2[0] * vector3[1] - vector2[1] * vector3[0];
 
-    double x3 = p4.x - p1.x;
-    double y3 = p4.y - p1.y;
-    double z3 = p4.z - p1.z;
+    // è®¡ç®—ç‚¹ç§¯
+    double dot_product = vector1[0] * cx + vector1[1] * cy + vector1[2] * cz;
 
-    // ¼ÆËã²æ»ı
-    double cx = y2 * z3 - z2 * y3;
-    double cy = z2 * x3 - x2 * z3;
-    double cz = x2 * y3 - y2 * x3;
-
-    // ¼ÆËãµã»ı
-    double dot_product = x1 * cx + y1 * cy + z1 * cz;
-
-    // ·µ»ØËÄÃæÌåÌå»ı
+    // è¿”å›å››é¢ä½“ä½“ç§¯
     return std::abs(dot_product) / 6.0;
 }

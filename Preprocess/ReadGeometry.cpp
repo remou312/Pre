@@ -9,10 +9,10 @@ geoData casdata2geoData(const casData& casdata)
 geoData neudata2geoData(const neuData& neudata)
 {
 	geoData geodata;
-	//1.ÏÈÊäÈë±ÈÀı
-	cout << "ÇëÊäÈë±ÈÀı(1.0)£º" << endl;
+	//1.å…ˆè¾“å…¥æ¯”ä¾‹
+	cout << "è¯·è¾“å…¥æ¯”ä¾‹(1.0)ï¼š" << endl;
 	cin >> geodata.scale;
-	//2.¶ÁÈ¡½Úµã(id,Typeid,centroid,volume)
+	//2.è¯»å–èŠ‚ç‚¹(id,Typeid,centroid,volume)
 	geodata.num_cells = neudata.num_cells;
 	Cell_Tet cell;
 	int id = 0;
@@ -20,71 +20,68 @@ geoData neudata2geoData(const neuData& neudata)
 		cell.id = neudata.cells[i].id;
 		cell.Typeid = neudata.cells[i].Typeid;
 		cell.centroid[0] = 0.25*(
-			neudata.points[neudata.cells[i].pointid1-1].x+
-			neudata.points[neudata.cells[i].pointid2-1].x+
-			neudata.points[neudata.cells[i].pointid3-1].x+
-			neudata.points[neudata.cells[i].pointid4-1].x);
+			neudata.points[neudata.cells[i].pointid[0] - 1].coords[0] +
+			neudata.points[neudata.cells[i].pointid[1] -1].coords[0] +
+			neudata.points[neudata.cells[i].pointid[2] -1].coords[0] +
+			neudata.points[neudata.cells[i].pointid[3] -1].coords[0]);
 		cell.centroid[1] = 0.25*(
-			neudata.points[neudata.cells[i].pointid1-1].y+
-			neudata.points[neudata.cells[i].pointid2-1].y+
-			neudata.points[neudata.cells[i].pointid3-1].y+
-			neudata.points[neudata.cells[i].pointid4-1].y);
+			neudata.points[neudata.cells[i].pointid[0] - 1].coords[1] +
+			neudata.points[neudata.cells[i].pointid[1] -1].coords[1] +
+			neudata.points[neudata.cells[i].pointid[2] -1].coords[1] +
+			neudata.points[neudata.cells[i].pointid[3] -1].coords[1]);
 		cell.centroid[2] = 0.25*(
-			neudata.points[neudata.cells[i].pointid1-1].z+
-			neudata.points[neudata.cells[i].pointid2-1].z+
-			neudata.points[neudata.cells[i].pointid3-1].z+
-			neudata.points[neudata.cells[i].pointid4-1].z);
-		cell.volume = Volume(neudata.points[neudata.cells[i].pointid1-1],
-			neudata.points[neudata.cells[i].pointid2-1],
-			neudata.points[neudata.cells[i].pointid3-1],
-			neudata.points[neudata.cells[i].pointid4-1]);
+			neudata.points[neudata.cells[i].pointid[0] - 1].coords[2] +
+			neudata.points[neudata.cells[i].pointid[1] -1].coords[2] +
+			neudata.points[neudata.cells[i].pointid[2] -1].coords[2] +
+			neudata.points[neudata.cells[i].pointid[3] -1].coords[2]);
+		cell.volume = Volume(neudata.points[neudata.cells[i].pointid[0]-1],
+			neudata.points[neudata.cells[i].pointid[1]-1],
+			neudata.points[neudata.cells[i].pointid[2]-1],
+			neudata.points[neudata.cells[i].pointid[3]-1]);
 		geodata.cells.push_back(cell);
 	}
-	//3.´¦Àíµ¥ÔªµÄÃæ
-	//3.1½«cell¼ÓÈëµ½geodataµÄpointÖĞÈ¥
-	geodata.points = neudata.points;//ÏÈ½«µãĞÅÏ¢¸´ÖÆ¹ıÀ´,Ä¿Ç°µÄcellidÊÇ¿ÕµÄ
+	//3.å¤„ç†å•å…ƒçš„é¢
+	//3.1å°†cellåŠ å…¥åˆ°geodataçš„pointä¸­å»
+	geodata.points = neudata.points;//å…ˆå°†ç‚¹ä¿¡æ¯å¤åˆ¶è¿‡æ¥,ç›®å‰çš„cellidæ˜¯ç©ºçš„
 	for (int i = 0; i < neudata.num_cells; i++) {
 		for (int j = 0; j < 4; j++) geodata.points[neudata.cells[i].pointid[j]-1].cellid.emplace_back(i);
 	}
-	//3.2»ñÈ¡µ¥ÔªÃæµÄ½ÚµãĞÅÏ¢£¬´æ´¢ÔÚÔİÊ±µÄfacesÖĞ£¬²¢´´½¨Ò»¸öÁÙÊ±cells´æ´¢face¶ÔÓ¦µÄcellµÄid
-	std::vector<Face_tri> faces;//ÓĞÖØ¸´µÄ
+	//3.2è·å–å•å…ƒé¢çš„èŠ‚ç‚¹ä¿¡æ¯ï¼Œå­˜å‚¨åœ¨æš‚æ—¶çš„facesä¸­ï¼Œå¹¶åˆ›å»ºä¸€ä¸ªä¸´æ—¶cellså­˜å‚¨faceå¯¹åº”çš„cellçš„id
+	std::vector<Face_tri> faces;//æœ‰é‡å¤çš„
 	std::vector<int> cells;
 	for (int i = 0; i < neudata.num_cells; i++) {
-			Face_tri face1;
-			face1.cellid = { i + 1,0 };
-			face1.pointid.push_back(neudata.cells[i].pointid1);
-			face1.pointid.push_back(neudata.cells[i].pointid2);
-			face1.pointid.push_back(neudata.cells[i].pointid3);
-			face1.sides = { 1,0 };
-			faces.push_back(face1);
-			cells.emplace_back(i+1);
-			Face_tri face2;
-			face2.cellid = { i + 1,0 };
-			face2.pointid.push_back(neudata.cells[i].pointid1);
-			face2.pointid.push_back(neudata.cells[i].pointid2);
-			face2.pointid.push_back(neudata.cells[i].pointid4);
-			face2.sides = { 3,0 };
-			faces.push_back(face2);
-			cells.emplace_back(i+1);
-			Face_tri face3;
-			face3.cellid = { i + 1,0 };
-			face3.pointid.push_back(neudata.cells[i].pointid1);
-			face3.pointid.push_back(neudata.cells[i].pointid4);
-			face3.pointid.push_back(neudata.cells[i].pointid3);
-			face3.sides = { 5,0 };
-			faces.push_back(face3);
-			cells.emplace_back(i+1);
-			Face_tri face4;
-			face4.cellid={i+1,0};
-			face4.pointid.push_back(neudata.cells[i].pointid2);
-			face4.pointid.push_back(neudata.cells[i].pointid3);
-			face4.pointid.push_back(neudata.cells[i].pointid4);
-			face4.sides = { 6,0 };
-			faces.push_back(face4);		
-			cells.emplace_back(i+1);
-		}
-	//3.3´¦ÀíÃæĞÅÏ¢£¬È¥³ıÖØ¸´µÄÃæ
-	//3.3.1½«Ãæ¼ÓÈëµ½pointsÖĞ
+		Face_tri face1;
+		face1.cellid[0] = i + 1;
+		face1.cellid[1] = 0;
+		face1.pointid[0] = neudata.cells[i].pointid[0];
+		face1.pointid[1] = neudata.cells[i].pointid[1];
+		face1.pointid[2] = neudata.cells[i].pointid[2];
+		faces.push_back(face1);
+		cells.push_back(i + 1);
+		Face_tri face2;
+		face2.cellid[0] = i + 1; face2.cellid[1] = 0;
+		face2.pointid[0] = neudata.cells[i].pointid[0];
+		face2.pointid[1] = neudata.cells[i].pointid[2];
+		face2.pointid[2] = neudata.cells[i].pointid[3];
+		faces.push_back(face2);
+		cells.push_back(i + 1);
+		Face_tri face3;
+		face3.cellid[0] = i + 1; face3.cellid[1] = 0;
+		face3.pointid[0] = neudata.cells[i].pointid[1];
+		face3.pointid[1] = neudata.cells[i].pointid[2];
+		face3.pointid[2] = neudata.cells[i].pointid[3];
+		faces.push_back(face3);
+		cells.push_back(i + 1);
+		Face_tri face4;
+		face4.cellid[0] = i + 1; face4.cellid[1] = 0;
+		face4.pointid[0] = neudata.cells[i].pointid[0];
+		face4.pointid[1] = neudata.cells[i].pointid[3];
+		face4.pointid[2] = neudata.cells[i].pointid[2];
+		faces.push_back(face4);
+		cells.push_back(i + 1);
+	}
+	//3.3å¤„ç†é¢ä¿¡æ¯ï¼Œå»é™¤é‡å¤çš„é¢
+	//3.3.1å°†é¢åŠ å…¥åˆ°pointsä¸­
 	for (int i = 0; i < faces.size(); i++) {
 		int i1 = faces[i].pointid[0];
 		int i2 = faces[i].pointid[1];
@@ -93,7 +90,7 @@ geoData neudata2geoData(const neuData& neudata)
 		geodata.points[i2-1].faceid.emplace_back(i+1);
 		geodata.points[i3-1].faceid.emplace_back(i+1);
 	}
-	//3.3.2È¥³ıÖØ¸´µÄÃæ
+	//3.3.2å»é™¤é‡å¤çš„é¢
 	vector<bool> faceid_used(faces.size(), false);
 	for (int i = 0; i < faces.size(); i++) {
 		if (faceid_used[i]) continue;
@@ -118,7 +115,7 @@ geoData neudata2geoData(const neuData& neudata)
 								faceid_used[i] = true;
 								faces[i].cellid[1] = faces[geodata.points[nodes[j] - 1].faceid[k]].cellid[0];
 								faces[i].sides[1] = faces[geodata.points[nodes[j] - 1].faceid[k]].sides[0];
-								//É¾³ıµÚ¶ş¸öÃæµÄĞÅÏ¢
+								//åˆ é™¤ç¬¬äºŒä¸ªé¢çš„ä¿¡æ¯
 								cells[geodata.points[nodes[j] - 1].faceid[k]-1] = 0;
 								faces[geodata.points[nodes[j] - 1].faceid[k]-1].cellid[0] = 0;
 								faces[geodata.points[nodes[j] - 1].faceid[k]-1].sides[0] = 0;
@@ -130,24 +127,37 @@ geoData neudata2geoData(const neuData& neudata)
 		}
 		faceid_used[i] = true;
 	}
-	//3.4¼ÆËãÃæµÄÏà¹ØÁ¿
+	//3.4è®¡ç®—é¢çš„ç›¸å…³é‡
 	for (int i = 0; i < faces.size(); i++) {
-		vector<double> coords1 = geodata.points[faces[i].pointid[0] - 1].coords;
-		vector<double> coords2 = geodata.points[faces[i].pointid[1] - 1].coords;
-		vector<double> coords3 = geodata.points[faces[i].pointid[2] - 1].coords;
+		double coords1[3];
+		coords1[0] = geodata.points[faces[i].pointid[0] - 1].coords[0];
+		coords1[1] = geodata.points[faces[i].pointid[0] - 1].coords[1];
+		coords1[2] = geodata.points[faces[i].pointid[0] - 1].coords[2];
+		double coords2[3];
+		coords2[0] = geodata.points[faces[i].pointid[1] - 1].coords[0];
+		coords2[1] = geodata.points[faces[i].pointid[1] - 1].coords[1];
+		coords2[2] = geodata.points[faces[i].pointid[1] - 1].coords[2];
+		double coords3[3];
+		coords3[0] = geodata.points[faces[i].pointid[2] - 1].coords[0];
+		coords3[1] = geodata.points[faces[i].pointid[2] - 1].coords[1];
+		coords3[2] = geodata.points[faces[i].pointid[2] - 1].coords[2];
 		double normal1 = (coords2[1] - coords1[1]) * (coords3[2] - coords1[2]) - (coords2[2] - coords1[2]) * (coords3[1] - coords1[1]);
 		double normal2 = (coords3[1] - coords2[1]) * (coords1[2] - coords2[2]) - (coords3[2] - coords2[2]) * (coords1[1] - coords2[1]);
 		double normal3 = (coords1[1] - coords3[1]) * (coords2[2] - coords3[2]) - (coords1[2] - coords3[2]) * (coords2[1] - coords3[1]);
 		double area = 0.5 * sqrt(normal1 * normal1 + normal2 * normal2 + normal3 * normal3);
 		faces[i].area = area;
-		faces[i].normal = { normal1,normal2,normal3 };
-		faces[i].centroid = { (coords1[0] + coords2[0] + coords3[0]) / 3,(coords1[1] + coords2[1] + coords3[1]) / 3,(coords1[2] + coords2[2] + coords3[2]) / 3 };
+		faces[i].normal[0] = normal1;
+		faces[i].normal[1] = normal2;
+		faces[i].normal[2] = normal3;
+		faces[i].centroid[0] = (coords1[0] + coords2[0] + coords3[0]) / 3.0;
+		faces[i].centroid[1] = (coords1[1] + coords2[1] + coords3[1]) / 3.0;
+		faces[i].centroid[2] = (coords1[2] + coords2[2] + coords3[2]) / 3.0;
 	}
 	for (int i = 0; i < faces.size(); i++) {
-	
+		//æ–¹å‘
 	}	
-	//3.5½«ÁÙÊ±Ãæ·ÅÈëgeodataÖĞ
+	//3.5å°†ä¸´æ—¶é¢æ”¾å…¥geodataä¸­ï¼ˆé¢çš„è¾¹ç•Œå±æ€§è¿˜æœªå¤„ç†ï¼‰
 
-
+	//4.å¤„ç†è¾¹ç•Œä¿¡æ¯
 	return geodata;
 }

@@ -145,7 +145,7 @@ casData readCas(std::ifstream& casfile) {
                 if (line != "))") {
                     Point_3d point;
                     std::istringstream lineStream(line);
-                    lineStream >> point.x >> point.y >> point.z;
+                    lineStream >> point.coords[0] >> point.coords[1] >> point.coords[2];
                     point.id = casdata.points.size() + 1;
                     casdata.points.emplace_back(point);
                 }
@@ -167,11 +167,11 @@ casData readCas(std::ifstream& casfile) {
                     std::istringstream lineStream(line);
                     lineStream >> hexNode1 >> hexNode2 >> hexNode3 >> hexCell1 >> hexCell2;
                     // 将十六进制字符串转换为整数
-                    face.pointid1 = std::stoi(hexNode1, nullptr, 16);
-                    face.pointid2 = std::stoi(hexNode2, nullptr, 16);
-                    face.pointid3 = std::stoi(hexNode3, nullptr, 16);
-                    face.cellid1 = std::stoi(hexCell1, nullptr, 16);
-                    face.cellid2 = std::stoi(hexCell2, nullptr, 16);
+                    face.pointid[0] = std::stoi(hexNode1, nullptr, 16);
+                    face.pointid[1] = std::stoi(hexNode2, nullptr, 16);
+                    face.pointid[2] = std::stoi(hexNode3, nullptr, 16);
+                    face.cellid[0] = std::stoi(hexCell1, nullptr, 16);
+                    face.cellid[1] = std::stoi(hexCell2, nullptr, 16);
                     face.id = casdata.faces.size() + 1;
                     casdata.faces.emplace_back(face);
                 }
@@ -209,10 +209,10 @@ neuData readNeu(std::ifstream& neufile) {
         if (type == 6) {
             cell.id = id;
             cell.Typeid = ilabel;
-            cell.pointid1 = n1;
-            cell.pointid2 = n2;
-            cell.pointid3 = n3;
-            cell.pointid4 = n4;
+            cell.pointid[0] = n1;
+            cell.pointid[1] = n2;
+            cell.pointid[2] = n3;
+            cell.pointid[3] = n4;
             neudata.cells.emplace_back(cell);
         }
     }

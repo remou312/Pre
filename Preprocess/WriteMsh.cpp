@@ -6,14 +6,14 @@ void WriteMsh(const geoData& data)
     std::cout << "Please enter a file name:";
     std::cin >> filename;
     while (true) {
-        if (!filename.empty()) {  // ¼ì²éÊäÈëÊÇ·ñÎª¿Õ
-            break;  // ÊäÈëÓĞĞ§£¬ÍË³öÑ­»·
+        if (!filename.empty()) {  // æ£€æŸ¥è¾“å…¥æ˜¯å¦ä¸ºç©º
+            break;  // è¾“å…¥æœ‰æ•ˆï¼Œé€€å‡ºå¾ªç¯
         }
         else {
             std::cout << "Invalid input. Please enter the file name again:";
         }
     }
-    // ¼ì²éÊÇ·ñ°üº¬À©Õ¹Ãû£¬ÈôÃ»ÓĞÔò¼ÓÉÏ ".msh"
+    // æ£€æŸ¥æ˜¯å¦åŒ…å«æ‰©å±•åï¼Œè‹¥æ²¡æœ‰åˆ™åŠ ä¸Š ".msh"
     if (filename.find_last_of(".") == std::string::npos) {
         filename += ".msh";
     }
@@ -23,13 +23,13 @@ void WriteMsh(const geoData& data)
             filename = filename.substr(0, filename.find_last_of(".")) + ".msh";
         }
     }
-    // ´ò¿ªÎÄ¼ş
+    // æ‰“å¼€æ–‡ä»¶
     std::ofstream ofs(filename, std::ios::out);
-    // ¶ÁÈ¡geoDataÄÚÈİĞ´Èë.mshÎÄ¼ş
-    // Ğ´ÈëÎÄ¼şÍ·²¿ĞÅÏ¢
+    // è¯»å–geoDataå†…å®¹å†™å…¥.mshæ–‡ä»¶
+    // å†™å…¥æ–‡ä»¶å¤´éƒ¨ä¿¡æ¯
     ofs << "version 1.0" << "\n";
     ofs << "Scale: " << data.scale << "\n";
-    // Ğ´Èëµ¥ÔªĞÅÏ¢
+    // å†™å…¥å•å…ƒä¿¡æ¯
     ofs << "ce:cells" << "\n";
     ofs <<"\t"<< data.num_cells << "\n";
     for (int i = 0; i < data.num_cells; i++) {
@@ -38,20 +38,20 @@ void WriteMsh(const geoData& data)
             "\t" << data.cells[i].centroid[2]<<"\t"
             <<data.cells[i].volume<< "\n";
         }
-    // Ğ´Èëµ¥ÔªÃæĞÅÏ¢
+    // å†™å…¥å•å…ƒé¢ä¿¡æ¯
     ofs<<"cf:cell faces"<<"\n";
     ofs<<"\t"<<"4" << "\n";
     for (int i = 0; i < data.num_cells; i++) {
         ofs << "\t" << i+1 << "\t" << "4"<< "\t" 
-            << data.cells[i].faceid1<< "\t" << data.cells[i].faceid2<< "\t" 
-            << data.cells[i].faceid3<< "\t" << data.cells[i].faceid4<< "\t";
+            << data.cells[i].faceid[0]<< "\t" << data.cells[i].faceid[1]<< "\t" 
+            << data.cells[i].faceid[2]<< "\t" << data.cells[i].faceid[3]<< "\t";
     }
-    //// Ğ´ÈëÃæĞÅÏ¢
+    //// å†™å…¥é¢ä¿¡æ¯
     //ofs<<"fc:faces"<<"\n";
     //ofs<<"\t"<<data.num_faces<<"\n";
     //for (int i = 0; i < data.num_faces; i++) {
 
     //}
-    // ¹Ø±ÕÎÄ¼ş
+    // å…³é—­æ–‡ä»¶
     ofs.close();
 }
